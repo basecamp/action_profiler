@@ -1,0 +1,2 @@
+`gem install ruby-prof` then add ?profile=true to any URL to embed a
+call graph profiling the page load.
