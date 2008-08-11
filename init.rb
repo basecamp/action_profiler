@@ -1,8 +1,7 @@
-unless RAILS_ENV == 'production'
-  begin
-    require 'action_profiler'
-    ActionController::Base.send :include, ActionController::ActionProfiler
-  rescue LoadError
-    ActionController::Base.logger.info "`gem install ruby-prof` to enable action profiling! Then add ?profile=true to any URL to embed a call graph profiling the page load."
-  end
+begin
+  require 'action_profiler'
+  ActionController::Base.send :include, ActionController::ActionProfiler
+  ActionController::Base.logger.info "Action profiling enabled. Add around_filter :action_profiler to ApplicationController then append ?profile=true to any URL to embed a call graph."
+rescue LoadError
+  ActionController::Base.logger.info "`gem install ruby-prof` to enable action profiling."
 end
