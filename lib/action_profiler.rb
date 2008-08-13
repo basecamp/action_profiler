@@ -15,17 +15,15 @@ module ActionController
         result = RubyProf.profile(&block)
 
         if response.body.is_a?(String)
+          min_percent = (params[:profile_percent] || 0.05).to_f
           output = StringIO.new
-          min_percent = (params[:profile_percent] || 10).to_i
-          RubyProf::GraphHtmlPrinter.new(result).print(output, :min_percent => min_percent)
 
-          if output.string =~ /<body>(.*)<\/body>/m
-            response.body.sub! '</body>', %(<div id="RubyProf">#{$1}</div></body>)
-          else
-            ActionController::Base.logger.info "[PROFILE] Non-HTML profile result: #{output.string}"
-          end
-        else
-          ActionController::Base.logger.info '[PROFILE] Non-HTML response body, skipping results'
+          RubyProf::CallTreePrinter.new(result).print(output, :min_percent => min_percent)
+          response.body.replace(output.string)
+
+          response.headers['Content-Length'] = response.body.size
+          response.headers['Content-Type'] = 'application/octet-stream'
+          response.headers['Content-Disposition'] = %(attachment; filename="#{File.basename(request.path)}.tree")
         end
       else
         yield
