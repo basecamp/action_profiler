@@ -3,7 +3,7 @@ require 'set'
 
 module ActionController
   module ActionProfiler
-    MODES = Set.new(%w(process_time wall_time cpu_time allocated_objects memory))
+    MODES = Set.new(%w(process_time wall_time cpu_time allocations memory gc_runs gc_time))
 
     # Pass profile=1 query param to profile the page load.
     def action_profiler(&block)
