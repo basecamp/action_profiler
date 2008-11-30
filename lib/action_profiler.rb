@@ -23,7 +23,7 @@ module ActionController
 
           response.headers['Content-Length'] = response.body.size
           response.headers['Content-Type'] = 'application/octet-stream'
-          response.headers['Content-Disposition'] = %(attachment; filename="#{File.basename(request.path)}.tree")
+          response.headers['Content-Disposition'] = %(attachment; filename="#{File.basename(request.path)}.#{mode}.tree")
         end
       else
         yield
