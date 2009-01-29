@@ -2,10 +2,15 @@ require 'ruby-prof'
 require 'set'
 
 module ActionController
+  # Add an around_filter :action_profiler to ApplicationController. Examples:
+  #
+  #   around_filter :action_profiler, :if => lambda { |c| c.request.subdomains.first == 'live' }
+  #
+  #   PROFILER_IPS = ['127.0.0.1']
+  #   around_filter :action_profiler, :if => lambda { |c| PROFILER_IPS.include?(c.request.remote_ip) }
   module ActionProfiler
     MODES = Set.new(%w(process_time wall_time cpu_time allocations memory gc_runs gc_time))
 
-    # Pass profile=1 query param to profile the page load.
     def action_profiler(&block)
       if !RubyProf.running? && mode = params[:profile]
         if MODES.include?(mode)
