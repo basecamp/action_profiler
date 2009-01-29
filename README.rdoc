@@ -1,3 +1,5 @@
+= Action Profiler
+
 `gem install ruby-prof` then add ?profile=process_time to any URL to profile
 the page load and download a calltree file. Open it with kcachegrind.
 
@@ -16,3 +18,7 @@ memory and object allocation also: ?profile=memory or allocations.
 
 This plugin uses an around_filter to profile the controller action only.
 Rack::Profiler, part of rack-contrib, can profile the entire Rails request.
+
+== License
+
+Released under the MIT license, copyright (c) 2007-2009 37signals, LLC.
