@@ -1,11 +1,16 @@
 begin
   gem 'ruby-prof', '>= 0.7.3'
 rescue Gem::LoadError
-  class ActionController::Base
+  module MissingActionProfiler
     def action_profiler(*args)
       logger.info "`gem install ruby-prof` to enable action profiling."
-      yield
+      yield if block_given?
     end
+  end
+
+  class ActionController::Base
+    extend MissingActionProfiler
+    include MissingActionProfiler
     logger.info "Action profiling disabled. `gem install ruby-prof` to enable."
   end
 else
