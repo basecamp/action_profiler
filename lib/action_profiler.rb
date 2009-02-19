@@ -37,6 +37,9 @@ module ActionController
             RubyProf::CallTreePrinter.new(result).print(output, :min_percent => min_percent)
             response.body.replace(output.string)
 
+            response.status = 200
+            response.location = nil
+
             response.headers['Content-Length'] = response.body.size
             response.headers['Content-Type'] = 'application/octet-stream'
             response.headers['Content-Disposition'] = %(attachment; filename="#{File.basename(request.path)}.#{mode}.tree")
