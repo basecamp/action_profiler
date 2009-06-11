@@ -40,7 +40,7 @@ module ActionController
             response.status = '200 OK'
             response.headers.delete('Location')
 
-            response.headers['Content-Length'] = response.body.size
+            response.headers['Content-Length'] = response.body.size.to_s
             response.headers['Content-Type'] = 'application/octet-stream'
             response.headers['Content-Disposition'] = %(attachment; filename="#{File.basename(request.path)}.#{mode}.tree")
           end
