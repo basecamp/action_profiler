@@ -37,8 +37,8 @@ module ActionController
             RubyProf::CallTreePrinter.new(result).print(output, :min_percent => min_percent)
             response.body.replace(output.string)
 
-            response.status = '200'
-            response.location = nil
+            response.status = '200 OK'
+            response.headers.delete('Location')
 
             response.headers['Content-Length'] = response.body.size
             response.headers['Content-Type'] = 'application/octet-stream'
